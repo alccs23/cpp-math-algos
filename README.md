@@ -1,1 +1,1 @@
-# qc-math-algos
+# cpp-math-algos
