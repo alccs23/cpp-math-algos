@@ -2,15 +2,13 @@
 #include <fstream>
 #include <vector>
 #include <cmath>
-#include "QR_decomp.h"
-#include "eigen_solve.h"
-#include "../utils/matrix_utils.h" 
+#include "helper_funcs.h"
 
 using namespace std;
 
 int main() {
 
-    string filename = "matrix.txt";
+    string filename = "test/matrix.txt";
     ifstream infile(filename);
 
     if (!infile.is_open()) {

@@ -2,7 +2,7 @@
 #include <fstream>
 #include <vector>
 #include <cmath>
-#include "QR_decomp.h"
+#include "../qr_decomp/QR_decomp.h"
 #include "../utils/matrix_utils.h" 
 
 pair<vector<vector<double>>, vector<double>> qr_algorithm(const vector<vector<double>>& mat) {
