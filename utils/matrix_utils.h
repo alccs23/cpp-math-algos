@@ -12,6 +12,7 @@ vector<float> scalar_multiply(const vector<float>& vec, float scalar);
 float dot_product(const vector<float>& vec1, const vector<float>& vec2);
 vector<float> add_vectors(const vector<float>& vec1, const vector<float>& vec2);
 vector<float> subtract_vectors(const vector<float>& vec1, const vector<float>& vec2);
+float get_vect_max(const vector<float>& vec);
 
 vector<float> get_column(const vector<vector<float>>& mat, int col);
 void set_column(vector<vector<float>>& mat, const vector<float>& vect, int col);
@@ -20,6 +21,7 @@ vector<vector<float>> outer_product(const vector<float>& vect1, const vector<flo
 vector<vector<float>> identity_matrix(int n);
 vector<vector<float>> matrix_mult(const vector<vector<float>>& mat1, const vector<vector<float>>& mat2);
 void transpose_matrix(vector<vector<float>>& mat);
+vector<float> get_diag(const vector<vector<float>>& mat);
 
 void print_vector(const vector<float>& vec);
 void print_matrix(const vector<vector<float>>& mat);

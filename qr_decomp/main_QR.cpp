@@ -3,6 +3,7 @@
 #include <vector>
 #include <cmath>
 #include "QR_decomp.h"
+#include "eigen_solve.h"
 #include "../utils/matrix_utils.h" 
 
 using namespace std;
@@ -31,14 +32,6 @@ int main() {
 
     infile.close();
 
-    auto [Q, R] = givens_QR(in_matrix, n);
-    cout << "Q Matrix:" << endl;
-    print_matrix(Q);
-    cout << endl;
-    cout << "R Matrix:" << endl;
-    print_matrix(R);
-    cout << endl;
-    cout << "QR Validation:" << endl;
-    print_matrix(matrix_mult(Q, R));
-    return 0;
+    print_vector(qr_algorithm(in_matrix));
+    
 }

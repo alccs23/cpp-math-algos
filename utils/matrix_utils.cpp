@@ -134,6 +134,28 @@ void transpose_matrix(vector<vector<float>>& mat) {
     }
 }
 
+vector<float> get_diag(const vector<vector<float>>& mat){
+    size_t n = mat.size();
+    vector<float> result(n);
+    for (int i = 0; i < n; i++){
+        result[i] = mat[i][i];
+    }
+    return result;
+}
+
+float get_vect_max(const vector<float>& vec) {
+    if (vec.empty()) {
+        throw invalid_argument("Vector is empty.");
+    }
+
+    float max_val = vec[0];
+    for (float v : vec) {
+        if (v > max_val) max_val = v;
+    }
+    return max_val;
+}
+
+
 
 
 
