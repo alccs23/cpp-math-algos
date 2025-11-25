@@ -31,9 +31,14 @@ int main() {
 
     infile.close();
 
-    auto [Q, R] = gs_QR(in_matrix, n);
+    auto [Q, R] = givens_QR(in_matrix, n);
+    cout << "Q Matrix:" << endl;
     print_matrix(Q);
+    cout << endl;
+    cout << "R Matrix:" << endl;
     print_matrix(R);
+    cout << endl;
+    cout << "QR Validation:" << endl;
     print_matrix(matrix_mult(Q, R));
     return 0;
 }

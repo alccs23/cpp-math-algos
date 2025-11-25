@@ -91,3 +91,34 @@ pair<vector<vector<float>>, vector<vector<float>>>
 
     return {q_k, in_matrix};
 }
+
+
+pair<vector<vector<float>>, vector<vector<float>>>
+ givens_QR(vector<vector<float>>& in_matrix, int n) {
+
+    vector<vector<float>> identity = identity_matrix(n);
+    vector<vector<float>> q_k = identity;
+    vector<vector<float>> g_k = identity;
+
+
+    for (int i = 0; i < n; i++){
+        for (int j = i + 1; j < n; j++){
+            if (in_matrix[j][i] != 0){{
+                float r = sqrt( pow(in_matrix[i][i], 2.0f) + pow(in_matrix[j][i], 2.0f));
+                float c = in_matrix[i][i]/ r;
+                float s = -in_matrix[j][i] / r;
+                g_k[i][i] = c;
+                g_k[j][i] = s;
+                g_k[i][j] = -s;
+                g_k[j][j] = c;
+                q_k = matrix_mult(g_k, q_k);
+                in_matrix = matrix_mult(g_k, in_matrix);
+                g_k = identity;
+                }
+            }
+        }
+    }
+    transpose_matrix(q_k);
+
+    return {q_k, in_matrix};
+}

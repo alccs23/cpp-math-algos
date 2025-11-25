@@ -9,4 +9,6 @@ pair<vector<vector<float>>, vector<vector<float>>> gs_QR(vector<vector<float>>& 
 
 pair<vector<vector<float>>, vector<vector<float>>> householder_QR(vector<vector<float>>& in_matrix, int n);
 
+pair<vector<vector<float>>, vector<vector<float>>> givens_QR(vector<vector<float>>& in_matrix, int n);
+
 #endif
