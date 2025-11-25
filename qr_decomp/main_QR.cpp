@@ -2,8 +2,7 @@
 #include <fstream>
 #include <vector>
 #include <cmath>
-#include "gs_QR.h"
-#include "householder_QR.h"
+#include "QR_decomp.h"
 #include "../utils/matrix_utils.h" 
 
 using namespace std;
@@ -32,15 +31,9 @@ int main() {
 
     infile.close();
 
-    // Make a copy for the second run
-    vector<vector<float>> matrix_copy = in_matrix;
-
-    cout << "Running Gram-Schmidt QR..." << endl;
-    gs_QR(in_matrix, n);
-    cout << " " << endl;
-
-    cout << "Running Householder QR..." << endl;
-    householder_QR(matrix_copy, n);
-
+    auto [Q, R] = gs_QR(in_matrix, n);
+    print_matrix(Q);
+    print_matrix(R);
+    print_matrix(matrix_mult(Q, R));
     return 0;
 }

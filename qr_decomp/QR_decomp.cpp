@@ -1,19 +1,52 @@
 #include <iostream>
-#include <fstream>
 #include <vector>
 #include <cmath>
 #include "../utils/matrix_utils.h"
+
 using namespace std;
 
-
 // Since I only care about real life stuff, we assume all square matrix systems
+
 
 int sgn(float val) {
     return (0.0f < val) - (val < 0.0f);
 }
 
+pair<vector<vector<float>>, vector<vector<float>>>
+ gs_QR(vector<vector<float>>& in_matrix, const int n) {
+    transpose_matrix(in_matrix);
 
-void householder_QR(vector<vector<float>>& in_matrix, int n) {
+    // Gram-Schmidt Process for QR Decomposition
+    vector<vector<float>> q_matrix(n, vector<float>(n));
+    vector<vector<float>> r_matrix(n, vector<float>(n, 0.0f));
+    vector<float> e_vect(n);
+    vector<float> u_vect(n);
+    vector<float> proj_vect(n);
+    float proj_int;
+
+    for (int i = 0; i < n; i++){
+        u_vect = in_matrix[i];
+        e_vect = u_vect;
+        for (int j = 0; j < i; j++){
+            proj_int = dot_product(q_matrix[j],u_vect)/dot_product(q_matrix[j],q_matrix[j]);
+            proj_vect = scalar_multiply(q_matrix[j], proj_int);
+            e_vect = subtract_vectors(e_vect, proj_vect);
+        }
+        proj_int = 1/sqrt(dot_product(e_vect, e_vect));
+        q_matrix[i] = scalar_multiply(e_vect, proj_int);
+
+        for (int j = i; j < n; j++){
+            r_matrix[j][i] = dot_product(q_matrix[i], in_matrix[j]);
+        }
+    }
+
+    transpose_matrix(q_matrix);
+    transpose_matrix(r_matrix);
+    return {q_matrix, r_matrix};
+}
+
+pair<vector<vector<float>>, vector<vector<float>>>
+ householder_QR(vector<vector<float>>& in_matrix, int n) {
 
     vector<float> y_k(n);
     float norm_y;
@@ -56,12 +89,5 @@ void householder_QR(vector<vector<float>>& in_matrix, int n) {
         in_matrix = matrix_mult(h_k, in_matrix);
     }
 
-    cout << "Q Matrix:" << endl;
-    print_matrix(q_k);
-    cout << " " << endl;
-    cout << "R Matrix:" << endl;
-    print_matrix(in_matrix);
-    cout << " " << endl;
-    cout << "QR Matrix Validation:" << endl;
-    print_matrix(matrix_mult(q_k,in_matrix));
+    return {q_k, in_matrix};
 }
