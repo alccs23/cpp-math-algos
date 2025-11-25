@@ -21,7 +21,7 @@ int main() {
     int n;
     infile >> n;
 
-    vector<vector<float>> in_matrix(n, vector<float>(n));
+    vector<vector<double>> in_matrix(n, vector<double>(n));
 
     // read matrix values
     for (int i = 0; i < n; i++) {
@@ -32,6 +32,10 @@ int main() {
 
     infile.close();
 
-    print_vector(qr_algorithm(in_matrix));
-    
+    auto [eigenvects, eigenvals] = qr_algorithm(in_matrix);
+    cout << "Av: " << endl;
+    print_vector(matrix_vector_mult(in_matrix, get_column(eigenvects, 0)));
+    cout << endl;
+    print_vector(scalar_multiply(get_column(eigenvects, 0), eigenvals[0]));
+
 }

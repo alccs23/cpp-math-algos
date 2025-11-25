@@ -7,28 +7,26 @@ using namespace std;
 
 // Since I only care about real life stuff, we assume all square matrix systems
 
-
-int sgn(float val) {
-    return (0.0f < val) - (val < 0.0f);
+int sgn(double val) {
+    return (0.0 < val) - (val < 0.0);
 }
 
-pair<vector<vector<float>>, vector<vector<float>>>
- gs_QR(vector<vector<float>>& in_matrix, const int n) {
+pair<vector<vector<double>>, vector<vector<double>>>
+gs_QR(vector<vector<double>>& in_matrix, const int n) {
     transpose_matrix(in_matrix);
 
-    // Gram-Schmidt Process for QR Decomposition
-    vector<vector<float>> q_matrix(n, vector<float>(n));
-    vector<vector<float>> r_matrix(n, vector<float>(n, 0.0f));
-    vector<float> e_vect(n);
-    vector<float> u_vect(n);
-    vector<float> proj_vect(n);
-    float proj_int;
+    vector<vector<double>> q_matrix(n, vector<double>(n));
+    vector<vector<double>> r_matrix(n, vector<double>(n, 0.0));
+    vector<double> e_vect(n);
+    vector<double> u_vect(n);
+    vector<double> proj_vect(n);
+    double proj_int;
 
     for (int i = 0; i < n; i++){
         u_vect = in_matrix[i];
         e_vect = u_vect;
         for (int j = 0; j < i; j++){
-            proj_int = dot_product(q_matrix[j],u_vect)/dot_product(q_matrix[j],q_matrix[j]);
+            proj_int = dot_product(q_matrix[j], u_vect)/dot_product(q_matrix[j], q_matrix[j]);
             proj_vect = scalar_multiply(q_matrix[j], proj_int);
             e_vect = subtract_vectors(e_vect, proj_vect);
         }
@@ -45,18 +43,16 @@ pair<vector<vector<float>>, vector<vector<float>>>
     return {q_matrix, r_matrix};
 }
 
-pair<vector<vector<float>>, vector<vector<float>>>
- householder_QR(vector<vector<float>>& in_matrix, int n) {
+pair<vector<vector<double>>, vector<vector<double>>>
+householder_QR(vector<vector<double>>& in_matrix, int n) {
 
-    vector<float> y_k(n);
-    float norm_y;
-    float norm_w;
-    vector<vector<float>> identity = identity_matrix(n);
-    vector<vector<float>> h_k(n, vector<float>(n));
-    vector<vector<float>> q_k = identity;
+    vector<double> y_k(n);
+    double norm_y;
+    double norm_w;
+    vector<vector<double>> identity = identity_matrix(n);
+    vector<vector<double>> h_k(n, vector<double>(n));
+    vector<vector<double>> q_k = identity;
 
-
-    // Householder QR Decomposition math
     for (int k = 0; k < n; k++) {
 
         int v_k_len = n - k;
@@ -64,15 +60,15 @@ pair<vector<vector<float>>, vector<vector<float>>>
 
         y_k = get_column(in_matrix, k);
 
-        vector<float> w_k(v_k_len);
-        vector<float> v_k(n, 0.0f);
+        vector<double> w_k(v_k_len);
+        vector<double> v_k(n, 0.0);
 
         for (int i = 0; i < v_k_len; i++) {
             w_k[i] = y_k[k + i];
         }
 
         norm_y = sqrt(dot_product(w_k, w_k));
-        w_k[0] = w_k[0] + (sgn(w_k[0]) *norm_y);
+        w_k[0] = w_k[0] + (sgn(w_k[0]) * norm_y);
         norm_w = sqrt(dot_product(w_k, w_k));
 
         w_k = scalar_multiply(w_k, 1 / norm_w);
@@ -81,8 +77,7 @@ pair<vector<vector<float>>, vector<vector<float>>>
             v_k[i] = w_k[i - zero_pad];
         }
 
-        h_k = subtract_matrix(identity,
-              scalar_multiply_matrix(outer_product(v_k, v_k), 2));
+        h_k = subtract_matrix(identity, scalar_multiply_matrix(outer_product(v_k, v_k), 2));
 
         q_k = matrix_mult(q_k, h_k);
 
@@ -92,21 +87,19 @@ pair<vector<vector<float>>, vector<vector<float>>>
     return {q_k, in_matrix};
 }
 
+pair<vector<vector<double>>, vector<vector<double>>>
+givens_QR(vector<vector<double>>& in_matrix, int n) {
 
-pair<vector<vector<float>>, vector<vector<float>>>
- givens_QR(vector<vector<float>>& in_matrix, int n) {
-
-    vector<vector<float>> identity = identity_matrix(n);
-    vector<vector<float>> q_k = identity;
-    vector<vector<float>> g_k = identity;
-
+    vector<vector<double>> identity = identity_matrix(n);
+    vector<vector<double>> q_k = identity;
+    vector<vector<double>> g_k = identity;
 
     for (int i = 0; i < n; i++){
         for (int j = i + 1; j < n; j++){
-            if (in_matrix[j][i] != 0){{
-                float r = sqrt( pow(in_matrix[i][i], 2.0f) + pow(in_matrix[j][i], 2.0f));
-                float c = in_matrix[i][i]/ r;
-                float s = -in_matrix[j][i] / r;
+            if (in_matrix[j][i] != 0){
+                double r = sqrt(pow(in_matrix[i][i], 2.0) + pow(in_matrix[j][i], 2.0));
+                double c = in_matrix[i][i]/r;
+                double s = -in_matrix[j][i]/r;
                 g_k[i][i] = c;
                 g_k[j][i] = s;
                 g_k[i][j] = -s;
@@ -114,7 +107,6 @@ pair<vector<vector<float>>, vector<vector<float>>>
                 q_k = matrix_mult(g_k, q_k);
                 in_matrix = matrix_mult(g_k, in_matrix);
                 g_k = identity;
-                }
             }
         }
     }

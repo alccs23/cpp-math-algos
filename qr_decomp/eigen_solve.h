@@ -4,6 +4,6 @@
 #include <vector>
 using namespace std;
 
-vector<float> qr_algorithm(const vector<vector<float>>& mat);
+pair<vector<vector<double>>, vector<double>> qr_algorithm(const vector<vector<double>>& mat);
 
 #endif

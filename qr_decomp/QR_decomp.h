@@ -2,13 +2,12 @@
 #define QR_DECOMP_H
 
 #include <vector>
-
 using namespace std;
 
-pair<vector<vector<float>>, vector<vector<float>>> gs_QR(vector<vector<float>>& in_matrix, const int n);
+pair<vector<vector<double>>, vector<vector<double>>> gs_QR(vector<vector<double>>& in_matrix, const int n);
 
-pair<vector<vector<float>>, vector<vector<float>>> householder_QR(vector<vector<float>>& in_matrix, int n);
+pair<vector<vector<double>>, vector<vector<double>>> householder_QR(vector<vector<double>>& in_matrix, int n);
 
-pair<vector<vector<float>>, vector<vector<float>>> givens_QR(vector<vector<float>>& in_matrix, int n);
+pair<vector<vector<double>>, vector<vector<double>>> givens_QR(vector<vector<double>>& in_matrix, int n);
 
 #endif

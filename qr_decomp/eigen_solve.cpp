@@ -5,23 +5,24 @@
 #include "QR_decomp.h"
 #include "../utils/matrix_utils.h" 
 
-vector<float> qr_algorithm(const vector<vector<float>>& mat){
+pair<vector<vector<double>>, vector<double>> qr_algorithm(const vector<vector<double>>& mat) {
 
     size_t n = mat.size();
 
-    //list of eigenvalues
-    vector<float> result(n);
+    vector<double> result(n);
 
-    vector<float> residual(n, 1.0f);
-    vector<vector<float>> a_k = mat;
+    vector<double> residual(n, 1.0);
+    vector<vector<double>> a_k = mat;
+    vector<vector<double>> Q_last = identity_matrix(n);
 
-    //1e-5 precision is good enough, dont have small eigenvalues please!!!!
-    while (get_vect_max(residual) > 1e-5){
-        vector<float> cur_diag = get_diag(a_k);
+    while (get_vect_max(residual) > 1e-8) {
+        vector<double> cur_diag = get_diag(a_k);
         auto [Q, R] = givens_QR(a_k, n);
+        Q_last = matrix_mult(Q_last, Q);
         a_k = matrix_mult(R, Q);
         residual = subtract_vectors(cur_diag, get_diag(a_k));
     }
 
-    return get_diag(a_k);
+    return {Q_last, get_diag(a_k)};
 }
+
